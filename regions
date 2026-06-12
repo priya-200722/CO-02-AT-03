@@ -1,0 +1,75 @@
+#include <iostream>
+using namespace std;
+
+class Election {
+private:
+    int regions, candidates;
+    int votes[10][10];
+
+public:
+    void input() {
+        cout << "Enter number of regions: ";
+        cin >> regions;
+
+        cout << "Enter number of candidates: ";
+        cin >> candidates;
+
+        for (int i = 0; i < regions; i++) {
+            cout << "\nRegion " << i + 1 << ":\n";
+            for (int j = 0; j < candidates; j++) {
+                cout << "Votes for Candidate " << j + 1 << ": ";
+                cin >> votes[i][j];
+            }
+        }
+    }
+
+    void regionWinners() {
+        for (int i = 0; i < regions; i++) {
+            int max = votes[i][0];
+            int winner = 0;
+
+            for (int j = 1; j < candidates; j++) {
+                if (votes[i][j] > max) {
+                    max = votes[i][j];
+                    winner = j;
+                }
+            }
+
+            cout << "\nWinner of Region " << i + 1
+                 << ": Candidate " << winner + 1
+                 << " (" << max << " votes)";
+        }
+    }
+
+    void overallWinner() {
+        int total[10] = {0};
+
+        for (int j = 0; j < candidates; j++) {
+            for (int i = 0; i < regions; i++) {
+                total[j] += votes[i][j];
+            }
+        }
+
+        int max = total[0], winner = 0;
+
+        for (int i = 1; i < candidates; i++) {
+            if (total[i] > max) {
+                max = total[i];
+                winner = i;
+            }
+        }
+
+        cout << "\n\nOverall Winner: Candidate " << winner + 1
+             << " (" << max << " votes)\n";
+    }
+};
+
+int main() {
+    Election e;
+
+    e.input();
+    e.regionWinners();
+    e.overallWinner();
+
+    return 0;
+}
