@@ -1,0 +1,69 @@
+#include <iostream>
+using namespace std;
+
+class Team {
+private:
+    string name;
+    int played, wins, draws, losses;
+    int goalsScored, goalsConceded;
+    int points;
+
+public:
+    void input() {
+        cout << "\nEnter Team Name: ";
+        cin >> name;
+
+        cout << "Matches Played, Wins, Draws, Losses: ";
+        cin >> played >> wins >> draws >> losses;
+
+        cout << "Goals Scored and Conceded: ";
+        cin >> goalsScored >> goalsConceded;
+
+        calculatePoints();
+    }
+
+    void calculatePoints() {
+        points = wins * 3 + draws * 1;
+    }
+
+    int getPoints() {
+        return points;
+    }
+
+    int goalDifference() {
+        return goalsScored - goalsConceded;
+    }
+
+    void display() {
+        cout << "\nTeam: " << name;
+        cout << "\nPoints: " << points;
+        cout << "\nGoal Difference: " << goalDifference() << endl;
+    }
+};
+
+int main() {
+    int n;
+    cout << "Enter number of teams: ";
+    cin >> n;
+
+    Team t[10];
+
+    for (int i = 0; i < n; i++)
+        t[i].input();
+
+    int winner = 0;
+
+    for (int i = 1; i < n; i++) {
+        if (t[i].getPoints() > t[winner].getPoints()) {
+            winner = i;
+        }
+    }
+
+    cout << "\n\n--- Team Details ---\n";
+    for (int i = 0; i < n; i++)
+        t[i].display();
+
+    cout << "\nWinner Team Index: " << winner + 1 << endl;
+
+    return 0;
+}
