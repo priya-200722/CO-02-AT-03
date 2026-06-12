@@ -1,0 +1,88 @@
+#include <iostream>
+using namespace std;
+
+class Student {
+public:
+    string name;
+    int marks;
+};
+
+class Department {
+public:
+    string deptName;
+    int n;
+    Student s[100];
+
+    void input() {
+        cout << "\nEnter Department Name: ";
+        cin >> deptName;
+
+        cout << "Enter number of students: ";
+        cin >> n;
+
+        for (int i = 0; i < n; i++) {
+            cout << "Enter name and marks: ";
+            cin >> s[i].name >> s[i].marks;
+        }
+    }
+
+    void topper() {
+        if (n == 0) {
+            cout << "\nNo students in " << deptName;
+            return;
+        }
+
+        int max = s[0].marks;
+        string top = s[0].name;
+
+        for (int i = 1; i < n; i++) {
+            if (s[i].marks > max) {
+                max = s[i].marks;
+                top = s[i].name;
+            }
+        }
+
+        cout << "\nTopper of " << deptName << ": " << top << " (" << max << ")";
+    }
+
+    float passPercentage() {
+        int pass = 0;
+        for (int i = 0; i < n; i++) {
+            if (s[i].marks >= 40)
+                pass++;
+        }
+        if (n == 0) return 0;
+        return (pass * 100.0) / n;
+    }
+};
+
+int main() {
+    int d;
+    cout << "Enter number of departments: ";
+    cin >> d;
+
+    Department dept[10];
+
+    for (int i = 0; i < d; i++)
+        dept[i].input();
+
+    string uniTopper;
+    int maxMarks = -1;
+
+    for (int i = 0; i < d; i++) {
+        dept[i].topper();
+
+        for (int j = 0; j < dept[i].n; j++) {
+            if (dept[i].s[j].marks > maxMarks) {
+                maxMarks = dept[i].s[j].marks;
+                uniTopper = dept[i].s[j].name;
+            }
+        }
+
+        cout << "\nPass % in " << dept[i].deptName << ": "
+             << dept[i].passPercentage() << "%\n";
+    }
+
+    cout << "\nUniversity Topper: " << uniTopper << " (" << maxMarks << ")";
+    return 0;
+}
