@@ -1,0 +1,73 @@
+#include <iostream>
+using namespace std;
+
+class Product {
+public:
+    string name;
+    float price;
+    int quantity;
+
+    float getSales() {
+        return price * quantity;
+    }
+};
+
+class Store {
+public:
+    int n;
+    Product p[100];
+    float totalSales;
+    static float overallSales;
+
+    void input(int storeNo) {
+        cout << "\nEnter number of products in Store " << storeNo << ": ";
+        cin >> n;
+
+        totalSales = 0;
+
+        for (int i = 0; i < n; i++) {
+            cout << "Enter product name, price, quantity: ";
+            cin >> p[i].name >> p[i].price >> p[i].quantity;
+        }
+    }
+
+    void calculateSales() {
+        for (int i = 0; i < n; i++) {
+            totalSales += p[i].getSales();
+        }
+        overallSales += totalSales;
+    }
+
+    void display(int storeNo) {
+        cout << "\nStore " << storeNo << " Total Sales: " << totalSales;
+    }
+};
+
+float Store::overallSales = 0;
+
+int main() {
+    int s;
+    cout << "Enter number of stores: ";
+    cin >> s;
+
+    Store st[10];
+
+    float maxSales = -1;
+    int bestStore = 0;
+
+    for (int i = 0; i < s; i++) {
+        st[i].input(i + 1);
+        st[i].calculateSales();
+        st[i].display(i + 1);
+
+        if (st[i].totalSales > maxSales) {
+            maxSales = st[i].totalSales;
+            bestStore = i + 1;
+        }
+    }
+
+    cout << "\n\nOverall Sales: " << Store::overallSales;
+    cout << "\nBest Performing Store: Store " << bestStore;
+
+    return 0;
+}
